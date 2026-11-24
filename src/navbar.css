@@ -1,0 +1,225 @@
+/* ==========================================================================
+   Navbar — home icon + Dark / Light pill switch
+   ========================================================================== */
+/* home icon: just the icon, in the theme's text colour (no badge behind it) */
+.brand-avatar {
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  box-shadow: none;
+  color: var(--text-primary);
+  transition: color 0.25s ease, transform 0.25s cubic-bezier(0.3, 1.4, 0.5, 1);
+}
+.brand-link:hover .brand-avatar {
+  color: var(--accent);
+  transform: scale(1.1);
+  box-shadow: none;
+}
+
+.theme-switch {
+  --ts-w: 96px;
+  --ts-h: 36px;
+  --ts-knob: 28px;
+  --ts-pad: 4px;
+  position: relative;
+  flex: none;
+  width: var(--ts-w);
+  height: var(--ts-h);
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid var(--border-hover);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--text-primary) 7%, var(--bg-card)), var(--bg-card));
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5), 0 1px 0 rgba(255, 255, 255, 0.04);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+}
+.theme-switch:hover {
+  border-color: var(--accent);
+}
+.theme-switch:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.ts-text {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-shadow: none !important;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.ts-text-dark {
+  left: 15px;
+  opacity: 1;
+}
+.ts-text-light {
+  right: 15px;
+  opacity: 0;
+}
+
+.ts-knob {
+  position: absolute;
+  top: 50%;
+  left: calc(100% - var(--ts-knob) - var(--ts-pad));
+  width: var(--ts-knob);
+  height: var(--ts-knob);
+  margin-top: calc(var(--ts-knob) / -2);
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 28%, #3a3a42 0%, #121216 78%);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #fff;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+  transition: left 0.45s cubic-bezier(0.3, 1.25, 0.45, 1), background 0.35s ease, color 0.35s ease, border-color 0.35s ease;
+}
+/* the thin ring around the knob, as in the reference */
+.ts-knob::after {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  transform: rotate(-20deg);
+  transition: border-color 0.35s ease;
+}
+.ts-icon {
+  display: grid;
+  place-items: center;
+  animation: ts-pop 0.45s cubic-bezier(0.3, 1.5, 0.5, 1) both;
+}
+@keyframes ts-pop {
+  from { opacity: 0; transform: rotate(-70deg) scale(0.4); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ---- light state: knob on the left, "Light" label on the right ---------- */
+.theme-switch.is-light {
+  background: linear-gradient(180deg, #ffffff, #efe9e1);
+  border-color: var(--border-hover);
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.07), 0 3px 12px rgba(80, 50, 30, 0.1);
+}
+.theme-switch.is-light .ts-text-dark {
+  opacity: 0;
+}
+.theme-switch.is-light .ts-text-light {
+  opacity: 1;
+}
+.theme-switch.is-light .ts-knob {
+  left: var(--ts-pad);
+  background: radial-gradient(circle at 34% 28%, #ffffff 0%, #f1e8dd 80%);
+  border-color: rgba(0, 0, 0, 0.12);
+  color: var(--accent);
+  box-shadow: 0 3px 8px rgba(80, 50, 30, 0.22);
+}
+.theme-switch.is-light .ts-knob::after {
+  border-color: rgba(0, 0, 0, 0.16);
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ts-knob,
+  .ts-text,
+  .ts-icon,
+  .theme-switch {
+    transition: none;
+    animation: none;
+  }
+}
+
+/* ---- Responsive fixes for a long brand name ---- */
+.brand-meta {
+  min-width: 0;
+}
+.brand-name {
+  white-space: nowrap;
+}
+.brand-name .bn-short {
+  display: none;
+}
+.nav-link {
+  white-space: nowrap;
+}
+/* tablet / small laptop: the full nav row is visible, so keep the brand short */
+@media (max-width: 1180px) {
+  .brand-name .bn-full {
+    display: none;
+  }
+  .brand-name .bn-short {
+    display: inline;
+  }
+  .brand-status {
+    white-space: nowrap;
+  }
+}
+
+/* long email button on narrow phones */
+.contact-actions .btn-primary {
+  max-width: 100%;
+}
+.contact-actions .btn-primary span:first-child {
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+@media (max-width: 420px) {
+  .contact-actions .btn-primary {
+    font-size: 0.85rem;
+    padding: 12px 18px;
+  }
+}
+
+/* tablets: the inline link row no longer fits — switch to the hamburger menu earlier */
+@media (max-width: 920px) {
+  .nav-links {
+    display: none;
+  }
+  .mobile-menu-btn {
+    display: flex;
+  }
+  .nav-links.is-open {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    position: absolute;
+    top: 62px;
+    left: clamp(16px, 4vw, 40px);
+    right: clamp(16px, 4vw, 40px);
+    padding: 14px;
+    gap: 4px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-card);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+  }
+  .nav-links.is-open .nav-link {
+    text-shadow: none;
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .site-header {
+    position: fixed;
+  }
+  .brand-name .bn-full {
+    display: inline;
+  }
+  .brand-name .bn-short {
+    display: none;
+  }
+}
+@media (max-width: 420px) {
+  .brand-name .bn-full {
+    display: none;
+  }
+  .brand-name .bn-short {
+    display: inline;
+  }
+}

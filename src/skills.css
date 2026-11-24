@@ -1,0 +1,199 @@
+/* ==========================================================================
+   Skills — interactive wheel (hover a segment, details appear in the centre)
+   ========================================================================== */
+section.skills-section {
+  scroll-margin-top: 0;
+}
+
+.sk-wheel {
+  position: relative;
+  container-type: inline-size;
+  width: min(660px, 100%);
+  margin: 16px auto 0;
+  aspect-ratio: 1;
+  opacity: 0;
+  transform: translateY(24px) scale(0.97);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.sk-wheel.is-in {
+  opacity: 1;
+  transform: none;
+}
+.sk-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* segments */
+.sk-seg {
+  fill: transparent;
+  stroke: var(--border-card);
+  stroke-width: 1.2;
+  cursor: pointer;
+  outline: none;
+  transition: fill 0.25s ease;
+}
+.sk-seg:hover,
+.sk-seg:focus-visible {
+  fill: color-mix(in srgb, var(--accent) 9%, transparent);
+}
+.sk-seg.is-active {
+  fill: color-mix(in srgb, var(--accent) 17%, transparent);
+}
+
+/* the two circles of the reference */
+.sk-ring {
+  fill: none;
+  stroke: var(--border-hover);
+  stroke: color-mix(in srgb, var(--text-primary) 38%, transparent);
+  stroke-width: 1.6;
+  pointer-events: none;
+}
+.sk-edge {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 5;
+  stroke-linecap: round;
+  pointer-events: none;
+  animation: sk-draw 0.5s ease both;
+  stroke-dasharray: 400;
+}
+@keyframes sk-draw {
+  from { stroke-dashoffset: 400; }
+  to { stroke-dashoffset: 0; }
+}
+
+.sk-label {
+  font-family: var(--font-sans);
+  font-size: 21px;
+  font-weight: 600;
+  fill: var(--text-secondary);
+  pointer-events: none;
+  user-select: none;
+  transition: fill 0.25s ease;
+}
+.sk-label.is-active {
+  fill: var(--accent);
+  font-weight: 700;
+}
+
+/* centre circle */
+.sk-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 63%;
+  height: 63%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7cqw;
+  text-align: center;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.sk-center-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.4cqw;
+  animation: sk-in 0.4s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+@keyframes sk-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+.sk-kicker {
+  font-family: var(--font-mono);
+  font-size: clamp(0.58rem, 1.55cqw, 0.78rem);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.sk-title {
+  margin: 0;
+  font-size: clamp(1rem, 3.5cqw, 1.6rem);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text-primary);
+}
+.sk-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+.sk-chips span {
+  padding: 4px 11px;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-full);
+  background: var(--bg-card);
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  animation: sk-in 0.4s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.sk-chips-center {
+  max-width: 88%;
+  margin-top: 0.6cqw;
+}
+.sk-chips-center span {
+  font-size: clamp(0.62rem, 1.85cqw, 0.84rem);
+  padding: 0.5cqw 1.7cqw;
+}
+
+.sk-panel {
+  display: none;
+}
+.sk-hint {
+  margin: 22px 0 0;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* phones: the ring keeps title + count, the full list moves underneath */
+@media (max-width: 700px) {
+  .sk-wheel {
+    width: min(420px, 100%);
+  }
+  .sk-label {
+    font-size: 26px;
+  }
+  .sk-chips-center {
+    display: none;
+  }
+  .sk-center {
+    padding: 5cqw;
+  }
+  .sk-title {
+    font-size: 4.6cqw;
+  }
+  .sk-kicker {
+    font-size: 2.6cqw;
+  }
+  .sk-panel {
+    display: block;
+    margin: 26px auto 0;
+    max-width: 480px;
+  }
+  .sk-panel .sk-chips span {
+    font-size: 0.82rem;
+    padding: 6px 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sk-wheel,
+  .sk-center-body,
+  .sk-chips span,
+  .sk-edge {
+    animation: none;
+    transition: none;
+  }
+}

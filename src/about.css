@@ -1,0 +1,227 @@
+/* ==========================================================================
+   About Me — full-screen poster (styles from the reference, colours from the site)
+   ========================================================================== */
+section.about-section {
+  box-sizing: border-box;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding: 88px 0 40px;
+  scroll-margin-top: 0;
+}
+
+/* No fill / border / shadow: the poster sits straight on the portfolio background.
+   Width is capped by the screen HEIGHT too, so the whole composition always fits. */
+.about-card {
+  position: relative;
+  container-type: inline-size;
+  width: min(1240px, 94vw, calc((100svh - 120px) * 1.42));
+  margin: 0 auto;
+  background: transparent;
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.about-card.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---- wave text (shared) ------------------------------------------------- */
+.wave-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+.wave-char {
+  display: inline-block;
+  --w: 0;
+  transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), color 0.28s ease;
+  will-change: transform;
+}
+
+/* ---- Giant heading ------------------------------------------------------ */
+.about-title {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  font-family: 'Anton', 'Impact', 'Arial Narrow Bold', sans-serif;
+  font-weight: 400;
+  font-size: 25cqw;
+  line-height: 0.95;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  text-align: center;
+  white-space: nowrap;
+  color: var(--text-primary);
+  cursor: default;
+}
+.about-title .wave-char {
+  color: color-mix(in srgb, var(--accent) calc(var(--w) * 100%), var(--text-primary));
+}
+
+/* ---- Portrait: in front of the heading, fading out at the bottom -------- */
+.about-portrait {
+  position: relative;
+  z-index: 2;
+  width: 38%;
+  margin: -11cqw auto 0;
+  pointer-events: none; /* lets the heading underneath receive the wave */
+  -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 62%, transparent 100%);
+}
+.about-portrait img {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+}
+
+/* ---- Script signature over the faded torso ------------------------------ */
+.about-script {
+  position: relative;
+  z-index: 3;
+  margin: -7.5cqw 0 0;
+  font-family: 'Fraunces Variable', 'Fraunces', Georgia, serif;
+  font-weight: 700;
+  font-variation-settings: 'SOFT' 100, 'WONK' 0, 'opsz' 72;
+  font-size: 5.8cqw; /* sized for a long full name */
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  text-align: center;
+  white-space: nowrap;
+  color: var(--accent);
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.28);
+  cursor: default;
+}
+.about-script .wave-char {
+  color: color-mix(in srgb, var(--text-primary) calc(var(--w) * 100%), var(--accent));
+}
+
+/* ---- Bio ---------------------------------------------------------------- */
+.about-bio {
+  position: relative;
+  z-index: 3;
+  max-width: 62ch;
+  margin: 1.8cqw auto 0;
+  font-size: clamp(0.95rem, 1.5cqw, 1.25rem);
+  line-height: 1.65;
+  text-align: center;
+  color: var(--text-secondary);
+  cursor: default;
+}
+.about-bio .wave-char {
+  color: color-mix(in srgb, var(--text-primary) calc(var(--w) * 100%), var(--text-secondary));
+}
+
+/* ---- Footer row: GitHub | ✦ ✦ ✦ | Email ---------------------------------- */
+.about-foot {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  margin-top: 3cqw;
+  font-family: var(--font-mono);
+  font-size: clamp(0.72rem, 1.1cqw, 0.95rem);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.about-foot a {
+  color: var(--text-primary);
+  text-decoration: none;
+  padding: 6px 0;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.about-foot a:first-child {
+  justify-self: start;
+}
+.about-foot a:last-child {
+  justify-self: end;
+}
+.about-foot a:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.about-sparks {
+  color: var(--accent);
+  font-family: var(--font-sans);
+  font-size: 1.2em;
+  letter-spacing: 0.3em;
+}
+
+/* ---- Phones / small tablets: portrait poster ---------------------------- */
+@media (max-width: 900px) {
+  .about-section {
+    min-height: 0;
+    padding: 104px 0 56px;
+  }
+  .about-card {
+    width: min(560px, 100%);
+  }
+  .about-portrait {
+    width: 84%;
+    margin-top: -15.5cqw;
+  }
+  .about-script {
+    font-size: 7.2cqw;
+    margin-top: -9cqw;
+  }
+  .about-bio {
+    max-width: 40ch;
+    font-size: 0.95rem;
+    margin-top: 4px;
+  }
+  .about-foot {
+    margin-top: 30px;
+    font-size: 0.72rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-card {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .wave-char {
+    transition: none;
+  }
+}
+
+/* ==========================================================================
+   Certifications / Contact bits
+   ========================================================================== */
+.cert-empty {
+  padding: 32px;
+  border: 1.5px dashed var(--border-hover);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+.cert-link {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.cert-link:hover {
+  text-decoration: underline;
+}
+.contact-actions {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* contact: left-aligned like the section heading */
+.contact-actions {
+  justify-content: flex-start;
+}
+
+/* contact flows straight into the footer */
+section.contact-section {
+  padding-bottom: 8px;
+}

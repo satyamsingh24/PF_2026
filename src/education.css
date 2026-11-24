@@ -1,0 +1,202 @@
+/* ==========================================================================
+   Education — pen nib, winding road, walkers (after the reference artwork)
+   ========================================================================== */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+section.edu-section {
+  padding: 96px 0 72px;
+  scroll-margin-top: 0;
+}
+
+.edu-stage {
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto;
+  container-type: inline-size;
+}
+
+/* the drawing, in the site's own colours */
+.edu-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  /* the nib emerges from the top edge, and the road fades out at the bottom,
+     instead of both ending on a hard line */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 9%, #000 88%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 9%, #000 88%, transparent 100%);
+}
+.edu-red {
+  fill: var(--accent);
+}
+.edu-cutout {
+  fill: var(--bg-primary);
+}
+.edu-cutout-line {
+  stroke: var(--bg-primary);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+.edu-dash {
+  fill: none;
+  stroke: var(--bg-primary);
+  stroke-linecap: round;
+}
+
+/* walkers */
+.edu-walker {
+  opacity: 0;
+  transition: opacity 0.7s ease;
+}
+.edu-walker.is-in {
+  opacity: 1;
+}
+.edu-body {
+  fill: #171111;
+  stroke: #171111;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.edu-body .limb {
+  fill: none;
+}
+.edu-shadow {
+  fill: rgba(40, 8, 4, 0.5);
+}
+
+/* kicker pill, top-left like the reference */
+.edu-kicker {
+  position: absolute;
+  top: 6%;
+  left: 3%;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 18px;
+  border-radius: 6px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  font-family: var(--font-mono);
+  font-size: clamp(0.72rem, 1.6cqw, 1.05rem);
+  letter-spacing: 0.1em;
+  color: var(--accent);
+}
+.edu-kicker-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+/* milestone cards */
+.edu-note {
+  position: absolute;
+  z-index: 4;
+  padding: 1.7cqw 1.9cqw 1.5cqw;
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 6px;
+  box-shadow: 0 10px 34px rgba(0, 0, 0, 0.16);
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.edu-note.is-in {
+  opacity: 1;
+  transform: none;
+}
+.edu-note-year {
+  font-family: var(--font-mono);
+  font-size: clamp(0.56rem, 0.95cqw, 0.72rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.edu-note h3 {
+  margin: 0.7cqw 0 0.5cqw;
+  font-size: clamp(0.82rem, 1.55cqw, 1.2rem);
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--text-primary);
+}
+.edu-note p {
+  margin: 0;
+  font-size: clamp(0.66rem, 1.1cqw, 0.88rem);
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+.edu-note-score {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7cqw;
+  margin-top: 1.3cqw;
+  padding-top: 1cqw;
+  border-top: 1px solid var(--border-card);
+}
+.edu-note-score strong {
+  font-size: clamp(1rem, 2.1cqw, 1.6rem);
+  font-weight: 800;
+  color: var(--text-primary);
+}
+.edu-note-score span {
+  font-size: clamp(0.58rem, 0.95cqw, 0.74rem);
+  color: var(--text-muted);
+}
+
+/* small screens: drawing on top, cards stacked underneath */
+@media (max-width: 860px) {
+  section.edu-section {
+    padding: 80px 0 56px;
+  }
+  .edu-note {
+    position: static;
+    width: auto !important;
+    margin-top: 14px;
+    padding: 18px 20px;
+    opacity: 1;
+    transform: none;
+  }
+  .edu-note h3 {
+    font-size: 1.05rem;
+    margin: 8px 0 6px;
+  }
+  .edu-note p {
+    font-size: 0.85rem;
+  }
+  .edu-note-year {
+    font-size: 0.68rem;
+  }
+  .edu-note-score {
+    margin-top: 14px;
+    padding-top: 12px;
+    gap: 10px;
+  }
+  .edu-note-score strong {
+    font-size: 1.4rem;
+  }
+  .edu-note-score span {
+    font-size: 0.74rem;
+  }
+  .edu-kicker {
+    font-size: 0.7rem;
+    padding: 8px 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .edu-walker,
+  .edu-note {
+    transition: none;
+  }
+}

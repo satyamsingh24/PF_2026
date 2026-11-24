@@ -1,0 +1,249 @@
+/* ==========================================================================
+   React port overrides
+   ========================================================================== */
+
+/* ---- Transparent navbar ------------------------------------------------- */
+.site-header {
+  top: 0;
+  padding: 14px clamp(16px, 4vw, 40px);
+  background: transparent;
+}
+.nav-pill {
+  width: 100%;
+  max-width: 1240px;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 6px 0;
+}
+.nav-pill:hover {
+  border-color: transparent;
+}
+.nav-link,
+.brand-name,
+.brand-status,
+.btn-theme-toggle {
+  text-shadow: 0 0 14px var(--bg-primary), 0 0 4px var(--bg-primary);
+}
+.nav-link:hover,
+.nav-link.is-active {
+  background: transparent;
+  color: var(--accent);
+}
+.nav-link.is-active {
+  box-shadow: inset 0 -2px 0 var(--accent);
+  border-radius: 0;
+}
+.btn-theme-toggle {
+  background: transparent;
+}
+.btn-ai-pill.is-active {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* ---- Anchor offset so headings clear the fixed navbar ------------------- */
+section[id] {
+  scroll-margin-top: 40px;
+}
+
+/* ---- Hero stats are now links into the matching section ---------------- */
+a.stat-item {
+  color: inherit;
+  text-decoration: none;
+  transition: transform var(--transition-fast);
+}
+a.stat-item:hover {
+  transform: translateY(-2px);
+}
+
+/* ---- Story links + chat markup (moved out of inline styles) ------------- */
+.story-link strong {
+  border-bottom: 1px dashed var(--accent);
+}
+.story-link:hover strong {
+  color: var(--accent);
+}
+.chat-code {
+  background: rgba(0, 0, 0, 0.25);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+}
+.chat-link {
+  color: var(--accent);
+  text-decoration: underline;
+  word-break: break-all;
+}
+
+/* ---- Mobile menu (replaces the inline-style hack) ----------------------- */
+@media (max-width: 768px) {
+  .nav-links.is-open {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    position: absolute;
+    top: 62px;
+    left: clamp(16px, 4vw, 40px);
+    right: clamp(16px, 4vw, 40px);
+    padding: 14px;
+    gap: 4px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-card);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+  }
+  .nav-links.is-open .nav-link,
+  .nav-links.is-open .btn-ai-pill {
+    text-shadow: none;
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .site-header {
+    position: fixed;
+  }
+}
+
+/* availability tag should hug its text, not stretch across the column */
+.hero-left-intro .availability-tag {
+  align-self: flex-start;
+}
+@media (max-width: 768px) {
+  .hero-left-intro .availability-tag {
+    align-self: center;
+  }
+}
+
+/* ==========================================================================
+   Landing — intro text | transparent avatar | bio text
+   ========================================================================== */
+.hero-section {
+  min-height: 100svh;
+  padding: 72px clamp(20px, 4vw, 40px) 0;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+}
+.hero-layout {
+  width: 100%;
+  max-width: 1240px;
+  min-height: calc(100svh - 72px);
+  display: grid;
+  grid-template-columns: 1.2fr auto 1fr;
+  /* avatar sits at the bottom of the screen */
+  align-items: end;
+  gap: clamp(24px, 4vw, 64px);
+}
+.hero-left-intro,
+.hero-right-intro {
+  /* text keeps its height; only the avatar moves down */
+  align-self: start;
+  margin-top: clamp(24px, 30svh, 300px);
+}
+.hero-left-intro {
+  align-items: flex-end;
+  text-align: right;
+}
+/* Hero greeting on a single line */
+.hero-left-intro .hero-greeting-title {
+  font-size: clamp(1.5rem, 3vw, 2.6rem);
+  white-space: nowrap;
+}
+.hero-right-intro {
+  align-items: flex-start;
+}
+.interactive-avatar-container {
+  gap: 0;
+}
+.avatar-circle-frame {
+  width: clamp(230px, 26vw, 380px);
+  height: clamp(230px, 26vw, 380px);
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+  /* soft fade where the shoulders end */
+  -webkit-mask-image: linear-gradient(to bottom, #000 82%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 82%, transparent 100%);
+}
+.avatar-circle-frame:hover {
+  box-shadow: none;
+}
+.avatar-img-layer {
+  border-radius: 0;
+  object-position: center;
+}
+
+@media (max-width: 900px) {
+  .hero-section {
+    padding-top: 96px;
+    padding-bottom: 0;
+    align-items: flex-start;
+  }
+  .hero-left-intro .hero-greeting-title {
+    white-space: normal;
+  }
+  .hero-layout {
+    min-height: 0;
+    align-items: start;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 20px;
+    text-align: center;
+  }
+  .hero-left-intro,
+  .hero-right-intro {
+    align-self: auto;
+    margin-top: 0;
+    align-items: center;
+    text-align: center;
+    max-width: 520px;
+  }
+  .hero-left-intro { order: 1; }
+  .interactive-avatar-container { order: 2; }
+  .hero-right-intro { order: 3; }
+}
+
+/* keep the chat drawer clear of the floating button on small screens */
+@media (max-width: 480px) {
+  .floating-chat-trigger {
+    right: 16px;
+    bottom: 16px;
+  }
+  .chat-drawer-container {
+    right: 16px;
+    bottom: 76px;
+  }
+}
+
+/* ---- 3D cartoon avatar image in the hero ---- */
+.avatar-circle-frame.avatar-image-frame {
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--border-card);
+  background: var(--bg-card);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.45), 0 0 0 6px var(--bg-card), 0 0 0 7px var(--border-card);
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+/* keep the layers full-frame so the pupil % positions line up with the eyes */
+.avatar-circle-frame.avatar-image-frame .avatar-img-layer {
+  border-radius: 50%;
+}
+
+/* ---- About portrait when it's a normal photo, not a cut-out ---- */
+.about-portrait.about-portrait--photo {
+  width: 30%;
+  -webkit-mask-image: radial-gradient(ellipse 50% 52% at 50% 44%, #000 62%, transparent 100%);
+  mask-image: radial-gradient(ellipse 50% 52% at 50% 44%, #000 62%, transparent 100%);
+}
+@media (max-width: 900px) {
+  .about-portrait.about-portrait--photo {
+    width: 70%;
+  }
+}
